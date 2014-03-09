@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import json
 import base64
 import logging
@@ -22,7 +23,7 @@ class Sinchung(object):
         self.PUBLIC_URL = 'https://portal.hanyang.ac.kr/sugang/publicTk.do'
         self.SUGANG_URL = 'https://portal.hanyang.ac.kr/sugang/sulg.do'
         self.LOGIN_URL = 'https://portal.hanyang.ac.kr/sugang/lgnps.do'
-        self.SINCHUNG_URL = 'https://portal.hanyang.ac.kr//sugang/SgscAct/saveSugangSincheong2.do'
+        self.SINCHUNG_URL = 'https://portal.hanyang.ac.kr/sugang/SgscAct/saveSugangSincheong2.do'
         self.SUGANG_KEY = 'https://nf.hanyang.ac.kr/ts.wseq?opcode=5101&nfid=0&js=yes&1394308371097&uid=undefined&utid=undefined'
 
 
@@ -65,7 +66,7 @@ class Sinchung(object):
 
         req = self.session.get("https://portal.hanyang.ac.kr/sugang/sulg.do")
 
-        if ID in req.text:
+        if 'logoutLink2' in req.text:
             self.is_login = True
             self.logger.info('Login Completed')
 
@@ -96,15 +97,17 @@ class Sinchung(object):
         if not self.sugang_codes:
             raise SinchungError('please set your class no. use sugang_code property.')
 
-        req = self.session.get(self.SUGANG_KEY)
-        netfunnel_value = req.text.split('\'')
-        netfunnel = netfunnel_value[1][:-1]
-        self.session.cookies.update({'NetFunnel_ID': quote(netfunnel)})
+        headers = {'Content-Type': 'application/json+sua; charset=utf-8'}
         for code in self.sugang_codes:
-            data = dict(IN_A_JAESUGANG_GB='', IN_JAESUGANG_HAKSU_NO='', IN_JAESUGANG_YN='N',
-                             IN_JOJIK_GB_CD='Y0000316', IN_SINCHEONG_FLAG='1', IN_SUNSU_FLAG='', IN_SUUP_NO=code, strReturnPopupYn='N')
-            req = self.session.post(self.SINCHUNG_URL, data=json.dumps(data))
-
+            data = dict(IN_A_JAESUGANG_GB='', 
+                        IN_JAESUGANG_HAKSU_NO='', 
+                        IN_JAESUGANG_YN='N',
+                        IN_JOJIK_GB_CD='Y0000316', 
+                        IN_SINCHEONG_FLAG='1', 
+                        IN_SUNSU_FLAG='', 
+                        IN_SUUP_NO=code, 
+                        strReturnPopupYn='N')
+            req = self.session.post(self.SINCHUNG_URL, data=json.dumps(data), headers=headers)
 
     @property
     def sugang_codes(self):
