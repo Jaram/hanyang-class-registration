@@ -10,6 +10,10 @@ import rsa
 
 class Sinchung(object):
     def __init__(self, log_level=logging.INFO):
+        """
+        :param log_level: print message
+        :type log_level: logging package type
+        """
         logging_format = '%(asctime)-15s %(message)s'
         logging.basicConfig(format=logging_format)
         self.logger = logging.getLogger('sugang_logger')
