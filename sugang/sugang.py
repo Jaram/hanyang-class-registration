@@ -93,7 +93,6 @@ class Sinchung(object):
         return enc_final
 
     def register(self):
-        #TODO: get auth
         if not self.is_login:
             raise SinchungError('please login. use login method.')
 
@@ -101,16 +100,23 @@ class Sinchung(object):
             raise SinchungError('please set your class no. use sugang_code property.')
 
         headers = {'Content-Type': 'application/json+sua; charset=utf-8'}
+        self.logger.info('---------------- start ----------------')
         for code in self.sugang_codes:
-            data = dict(IN_A_JAESUGANG_GB='', 
-                        IN_JAESUGANG_HAKSU_NO='', 
+            data = dict(IN_A_JAESUGANG_GB='',
+                        IN_JAESUGANG_HAKSU_NO='',
                         IN_JAESUGANG_YN='N',
-                        IN_JOJIK_GB_CD='Y0000316', 
-                        IN_SINCHEONG_FLAG='1', 
-                        IN_SUNSU_FLAG='', 
-                        IN_SUUP_NO=code, 
+                        IN_JOJIK_GB_CD='Y0000316',
+                        IN_SINCHEONG_FLAG='1',
+                        IN_SUNSU_FLAG='',
+                        IN_SUUP_NO=code,
                         strReturnPopupYn='N')
             req = self.session.post(self.SINCHUNG_URL, data=json.dumps(data), headers=headers)
+            result = json.loads(req.text)
+            self.logger.info(
+                u'code: {0}, message: {1}, current point: {2}, max point {3}'.format(code, result['outMsg'],
+                                                                                     result['scHahjeom'],
+                                                                                     result['maxHakjeom']))
+        self.logger.info('----------------  end  ----------------')
 
     @property
     def sugang_codes(self):
