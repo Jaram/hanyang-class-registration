@@ -35,6 +35,7 @@ class Sinchung(object):
         :param ID: required login. your id.
         :param PW: your pw.
         """
+        ID = str(ID)
         self.session = requests.Session()
         req = self.session.get(self.SUGANG_URL)
         cookies = dict(WMONID=req.cookies['WMONID'], SUGANG_JSESSIONID=req.cookies['SUGANG_JSESSIONID'],
