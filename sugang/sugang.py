@@ -6,8 +6,6 @@ import math
 import random
 import requests
 import rsa
-from urllib import quote
-
 
 
 class Sinchung(object):
