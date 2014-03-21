@@ -21,8 +21,7 @@ Quick Start
     from hanyang_registration import sugang
     import logging
     
-    # log_level default value is logging.INFO
-    sinchung = sugang.Sinchung(log_lovel=logging.INFO)
+    sinchung = sugang.Sinchung(verbose=True) #default True
     sinchung.login('2014036123', 'your_password')
     
 
