@@ -4,7 +4,7 @@ from distutils.core import setup
 setup(
     name = 'hanyang_registration',
     packages = ['hanyang_registration'],
-    version = '1.0.2',
+    version = '1.1.0',
     description = 'Hanyang Class Registration for python',
     license = 'The MIT License',
     author = 'Jin-Soo Han, Jaram',
