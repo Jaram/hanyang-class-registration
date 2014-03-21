@@ -4,8 +4,8 @@ Intro
 -----
 Unofficial Hanyang Registration for Python
 
-Intallation
------------
+Installation
+-----------------
 
 ::
 
