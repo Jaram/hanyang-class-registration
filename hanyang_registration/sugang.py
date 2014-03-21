@@ -9,15 +9,19 @@ import rsa
 
 
 class Sinchung(object):
-    def __init__(self, log_level=logging.INFO):
+    def __init__(self, verbose=True):
         """
-        :param log_level: print message
-        :type log_level: logging package type
+        :param verbose: print some massage.
+        :type verbose: Boolean
         """
         logging_format = '%(asctime)-15s %(message)s'
         logging.basicConfig(format=logging_format)
         self.logger = logging.getLogger('sugang_logger')
-        self.logger.setLevel(log_level)
+        if verbose:
+            self.logger.setLevel(logging.INFO)
+        else:
+            self.logger.setLevel(logging.ERROR)
+
         self.is_login = False
 
         self.code = None
