@@ -25,11 +25,14 @@ class Sinchung(object):
         self.is_login = False
 
         self.code = None
-        self.CHALLENGE_URL = 'https://portal.hanyang.ac.kr/sugang/findPkiChallenges.do'
-        self.PUBLIC_URL = 'https://portal.hanyang.ac.kr/sugang/publicTk.do'
-        self.SUGANG_URL = 'https://portal.hanyang.ac.kr/sugang/sulg.do'
-        self.LOGIN_URL = 'https://portal.hanyang.ac.kr/sugang/lgnps.do'
-        self.SINCHUNG_URL = 'https://portal.hanyang.ac.kr/sugang/SgscAct/saveSugangSincheong2.do'
+        self.API_PROTOCOL = 'https'
+        self.API_HOST = 'portal.hanyang.ac.kr'
+        self.API_URL = self.API_PROTOCOL + '://' + self.API_HOST
+        self.CHALLENGE_URL = self.API_URL + '/sugang/findPkiChallenges.do'
+        self.PUBLIC_URL = self.API_URL + '/sugang/publicTk.do'
+        self.SUGANG_URL = self.API_URL + '/sugang/sulg.do'
+        self.LOGIN_URL = self.API_URL + '/sugang/lgnps.do'
+        self.SINCHUNG_URL = self.API_URL + '/sugang/SgscAct/saveSugangSincheong2.do'
         self.SUGANG_KEY = 'https://nf.hanyang.ac.kr/ts.wseq?opcode=5101&nfid=0&js=yes&1394308371097&uid=undefined&utid=undefined'
 
 
