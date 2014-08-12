@@ -49,3 +49,8 @@ Changelog
 ::
 
     sinchung = sugang.Sinchung(verbose=True) # default True
+
+- v1.1.1 - `issue#5`__ `issue#6`__ 을 수정하였습니다.
+
+__ https://github.com/Jaram/hanyang-class-registration/issues/5
+__ https://github.com/Jaram/hanyang-class-registration/issues/6
