@@ -102,7 +102,7 @@ class Sinchung(object):
             raise SinchungError('please login. use login method.')
 
         if not self.sugang_codes:
-            raise SinchungError('please set your class no. use sugang_code property.')
+            raise SinchungError('please set your class no. use sugang_codes property.')
 
         headers = {'Content-Type': 'application/json+sua; charset=utf-8'}
         self.logger.info('---------------- start ----------------')
