@@ -1,10 +1,10 @@
 #-*- coding:utf-8 -*-
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name = 'hanyang_registration',
     packages = ['hanyang_registration'],
-    version = '1.1.1',
+    version = '1.1.3',
     description = 'Hanyang Class Registration for python',
     license = 'The MIT License',
     author = 'Jin-Soo Han, Jaram',
