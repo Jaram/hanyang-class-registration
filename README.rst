@@ -56,3 +56,4 @@ __ https://github.com/Jaram/hanyang-class-registration/issues/5
 __ https://github.com/Jaram/hanyang-class-registration/issues/6
 
 - v1.1.2 - 새로 추가된 IN_HGT_SUUP_FLAG param 추가
+- v1.1.4 - IN_HGT_SUUP_FLAG에 일반적인  수강신청을 위해서 0번값 추가.
