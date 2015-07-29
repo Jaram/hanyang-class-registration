@@ -18,7 +18,7 @@ class Sinchung(object):
     LOGIN_URL = API_URL + '/sugang/lgnps.do'
     SINCHUNG_URL = API_URL + '/sugang/SgscAct/saveSugangSincheong2.do'
 
-    def __init__(self, verbose=True):
+    def __init__(self, verbose=True, erica=True):
         """
         :param verbose: print some massage.
         :type verbose: Boolean
@@ -33,6 +33,7 @@ class Sinchung(object):
 
         self.is_login = False
         self.code = None
+        self.location = 'Y0000316' if erica else 'H0002256'
 
     def login(self, ID, PW):
         """
@@ -106,6 +107,7 @@ class Sinchung(object):
 
         headers = {'Content-Type': 'application/json+sua; charset=utf-8'}
         self.logger.info('---------------- start ----------------')
+        # IN_JOJIK_GB_CD: "H0002256" 서울캠
         for code in self.sugang_codes:
             data = dict(IN_A_JAESUGANG_GB='',
                         IN_JAESUGANG_HAKSU_NO='',
