@@ -115,6 +115,7 @@ class Sinchung(object):
                         IN_JOJIK_GB_CD='Y0000316',
                         IN_SINCHEONG_FLAG='1',
                         IN_SUNSU_FLAG='',
+                        IN_SGSC_GB='0',
                         IN_HGT_SUUP_FLAG='',
                         IN_SUUP_NO=code,
                         strReturnPopupYn='N')
