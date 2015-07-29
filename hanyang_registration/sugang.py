@@ -116,7 +116,7 @@ class Sinchung(object):
                         IN_SINCHEONG_FLAG='1',
                         IN_SUNSU_FLAG='',
                         IN_SGSC_GB='0',
-                        IN_HGT_SUUP_FLAG='',
+                        IN_HGT_SUUP_FLAG=0,
                         IN_SUUP_NO=code,
                         strReturnPopupYn='N')
             req = self.session.post(self.SINCHUNG_URL, data=json.dumps(data), headers=headers)
