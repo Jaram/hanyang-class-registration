@@ -20,7 +20,7 @@ Quick Start
 
     from hanyang_registration import sugang
 
-    sinchung = sugang.Sinchung(verbose=True) #default True
+    sinchung = sugang.Sinchung(verbose=True, erica=True) #default True
     sinchung.login('2014036123', 'your_password')
     
 
@@ -57,3 +57,4 @@ __ https://github.com/Jaram/hanyang-class-registration/issues/6
 
 - v1.1.2 - 새로 추가된 IN_HGT_SUUP_FLAG param 추가
 - v1.1.4 - IN_HGT_SUUP_FLAG에 일반적인  수강신청을 위해서 0번값 추가.
+- v1.1.5 - IN_SGSC_GB param 추가, erica flag 추가

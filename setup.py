@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name = 'hanyang_registration',
     packages = ['hanyang_registration'],
-    version = '1.1.4',
+    version = '1.1.5',
     description = 'Hanyang Class Registration for python',
     license = 'The MIT License',
     author = 'Jin-Soo Han, Jaram',
