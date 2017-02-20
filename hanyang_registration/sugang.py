@@ -7,6 +7,7 @@ import random
 import requests
 import rsa
 import re
+import time
 
 class Sinchung(object):
     API_PROTOCOL = 'https'
@@ -17,8 +18,8 @@ class Sinchung(object):
     SUGANG_URL = API_URL + '/sugang/sulg.do'
     LOGIN_URL = API_URL + '/sugang/lgnps.do'
     SINCHUNG_URL = API_URL + '/sugang/SgscAct/saveSugangSincheong2.do'
-    NET_FUNNEL_KEY_URL = API_PROTOCOL + '://nf.hanyang.ac.kr/ts.wseq?opcode=5101&nfid=0&prefix=NetFunnel.gRtype=5101;&sid=service_1&aid=act_2&js=yes&user_data='
-    NET_FUNNEL_END_URL = API_PROTOCOL + '://nf.hanyang.ac.kr/ts.wseq?opcode=5004&key={}&nfid=0&prefix=NetFunnel.gRtype=5004;&js=yes'
+    NET_FUNNEL_KEY_URL = API_PROTOCOL + '://nf.hanyang.ac.kr/ts.wseq?opcode=5101&nfid=0&prefix=NetFunnel.gRtype=5101;&sid=service_1&aid=act_2&js=yes&user_data={}&{}'
+    NET_FUNNEL_END_URL = API_PROTOCOL + '://nf.hanyang.ac.kr/ts.wseq?opcode=5004&key={}&nfid=0&prefix=NetFunnel.gRtype=5004;&js=yes&{}'
     CAPTCHA_RESET_URL = API_PROTOCOL + '://' + API_HOST + '/sugang/SgscAct/resetCaptchaTryCnt.do'
 
     def __init__(self, verbose=True, erica=True):
@@ -38,6 +39,7 @@ class Sinchung(object):
         self.code = None
         self.location = 'Y0000316' if erica else 'H0002256'
 
+
     def login(self, ID, PW):
         """
         login procedure. it doesn't return True or False. but it will print any message.
@@ -47,8 +49,7 @@ class Sinchung(object):
         self.ID = str(ID)
         self.session = requests.Session()
         req = self.session.get(self.SUGANG_URL)
-        cookies = dict(WMONID=req.cookies['WMONID'], SUGANG_JSESSIONID=req.cookies['SUGANG_JSESSIONID'],
-                       ipSecGb=base64.b64encode('1'), NetFunnel_ID='', loginUserId=base64.b64encode(self.ID))
+        cookies = dict(WMONID=req.cookies['WMONID'], SUGANG_JSESSIONID=req.cookies['SUGANG_JSESSIONID'], ipSecGb=base64.b64encode('1'), NetFunnel_ID='', loginUserId=base64.b64encode(self.ID))
         headers = {'Content-Type': 'application/json+sua; charset=utf-8'}
 
         req = self.session.post(self.CHALLENGE_URL, headers=headers)
@@ -67,9 +68,7 @@ class Sinchung(object):
         hashed_id = self.rsa_enc(self.ID, self.PUBLIC_KEY)
         hashed_pw = self.rsa_enc(PW, self.PUBLIC_KEY)
 
-        login_data = dict(challenge=challenge, ipSecGb=1, keyNm=keyNm, loginGb=1, userId=hashed_id,
-                          password=hashed_pw, signeddata='', symm_enckey='', systemGb='SUGANG',
-                          returl='https://portal.hanyang.ac.kr/sugang/slgns.do?locale=ko')
+        login_data = dict(challenge=challenge, ipSecGb=1, keyNm=keyNm, loginGb=1, userId=hashed_id, password=hashed_pw, signeddata='', symm_enckey='', systemGb='SUGANG',                   returl='https://portal.hanyang.ac.kr/sugang/slgns.do?locale=ko')
 
         headers.pop('Content-Type')
 
@@ -112,9 +111,11 @@ class Sinchung(object):
         self.logger.info('---------------- start ----------------')
         # IN_JOJIK_GB_CD: "H0002256" 서울캠
         for code in self.sugang_codes:
-            req = self.session.post(self.NET_FUNNEL_KEY_URL + self.ID, headers=headers)
-            m = re.search('(?<=key=)(\w|\d)+', req.text)
-            key = m.group(0)
+            req = self.session.post(self.NET_FUNNEL_KEY_URL.format(self.ID, int(time.time()*1000)), headers=headers)
+            netfunnel_cookie_data = re.search(r"'(.*?)'", req.text).group(1)
+            key = re.search('(?<=key=)(\w|\d)+', netfunnel_cookie_data).group(0)
+            self.session.cookies['NetFunnel_ID'] = netfunnel_cookie_data
+
             data = dict(IN_A_JAESUGANG_GB='',
                         IN_JAESUGANG_HAKSU_NO='',
                         IN_JAESUGANG_YN='N',
@@ -138,7 +139,7 @@ class Sinchung(object):
                 u'code: {}, message: {}, current point: {}, max point {}'.format(
                     code, result.get('outMsg', ''), result.get('scHahjeom', ''), result.get('maxHakjeom', '')))
 
-            req = self.session.post(self.NET_FUNNEL_END_URL.format(key), headers=headers)
+            req = self.session.post(self.NET_FUNNEL_END_URL.format(key, int(time.time()*1000)), headers=headers)
         self.logger.info('----------------  end  ----------------')
 
     @property
